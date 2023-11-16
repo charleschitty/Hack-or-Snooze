@@ -20,7 +20,7 @@ $body.on("click", "#nav-all", navAllStories);
 function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
   evt.preventDefault();
-  console.log("clicked")
+  console.log("clicked");
   $submitForm.show();
 }
 

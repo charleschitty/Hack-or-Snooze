@@ -50,3 +50,31 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/** Handle story form submission, if form has valid inputs - author, title, url,
+ * and currentUser, it will call addStory and add it to the stories' list. */
+
+async function getAndSubmitStory(evt) {
+  console.debug("getStorySubmission=", evt);
+  evt.preventDefault();
+
+  // grab the author, title, url
+  const author = $("#submit-author").val();
+  const title = $("#submit-title").val();
+  const url = $("#submit-url").val();
+
+  // grab current user
+  console.log("whatIsUser=", currentUser);
+  console.log("currentStory=", currentUser, { title, author, url });
+
+  const currentStory = await storyList.addStory(
+      currentUser,
+      { title, author, url }
+      );
+  const $story = generateStoryMarkup(currentStory);
+  $allStoriesList.prepend($story);
+
+  $submitForm.trigger("reset");
+}
+
+$submitForm.on("submit", getAndSubmitStory);

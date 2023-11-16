@@ -24,8 +24,10 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // FIXME: complete this function!
-    return "hostname.com";
+    console.log("getHostName=", this.url);
+    const hostname = new URL(this.url).host;
+    return hostname;
+
   }
 }
 
@@ -73,24 +75,28 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory(user, {title, author, url}) {
-    // UNIMPLEMENTED: complete this function!
+  async addStory(user, { title, author, url }) {
+    console.log("addStory Inputs=", user, { title, author, url });
+
     const token = user.loginToken;
 
     const response = await fetch(`${BASE_URL}/stories`, {
       method: "POST",
-      body: JSON.stringify({token, story : {
-        title, author, url}
+      body: JSON.stringify({
+        token, story: {
+          title, author, url
+        }
       }),
       headers: {
         "content-type": "application/json",
       }
     });
+
     const storyData = await response.json();
     console.log("storyData=", storyData);
     const story = new Story(storyData.story);
     console.log("story=", story);
-    this.stories.unshift(story);
+
     return story;
   }
 }
