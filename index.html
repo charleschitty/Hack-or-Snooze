@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<!--FIXME: CSS Submit button-->
+
 <!-- Hack or Snooze
 
      This is the only HTML page; the applications manipulates this DOM
@@ -19,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hack or Snooze</title>
-  <link rel="stylesheet" 
+  <link rel="stylesheet"
         href="https://www.unpkg.com/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/user.css">
@@ -34,6 +36,7 @@
   <div class="navbar-brand">
     <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
   </div>
+    <a class="nav-link" href="#" id="nav-submit">submit</a>
   <div class="nav-right">
     <a class="nav-link" href="#" id="nav-login">login/signup</a>
     <a class="nav-link" href="#" id="nav-user-profile"></a>
@@ -43,6 +46,22 @@
 
 <!-- area for stories (all stories, user stories, favorites) -->
 <section class="stories-container container">
+  <form id="submit-form" class="submit-form hidden">
+    <div class="submit-author-input">
+      <label for="submit-author">author</label>
+      <input id="submit-author" placeholder = "author name">
+    </div>
+    <div class="submit-title-input">
+      <label for="submit-title">title</label>
+      <input id="submit-title" placeholder = "story title">
+    </div>
+    <div class="submit-url-input">
+      <label for="submit-url">url</label>
+      <input id="submit-url" placeholder = "story url">
+    </div>
+    <button type="submit">Submit</button>
+    <hr>
+  </form>
 
   <!-- loading message (removed by JS after stories loaded) -->
   <div id="stories-loading-msg">Loading&hellip;</div>
