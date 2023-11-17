@@ -24,7 +24,7 @@ function generateStoryMarkup(story) {
 
   const hostName = story.getHostName();
   return $(`
-      <li id="${story.storyId}">
+      <li id="${story.storyId}" class="story-data">
         <span class="star">
           <i class="bi bi-star"></i>
         </span>
@@ -95,6 +95,7 @@ function putFavStoriesOnPage() {
     // loop through all of our stories and generate HTML for them
     for (let story of favoriteStories) {
       const $story = generateStoryMarkup(story);
+      console.log("generateStory", $story)
       $favoritesList.append($story);
     }
   }
@@ -109,17 +110,39 @@ $allStoriesList.on("click",".star", toggleFavoriteClick);
 
 function toggleFavoriteClick(evt){
   console.log("I did get clicked");
-
-  let clickedStory;
-  const storyId = $(evt.target).closest("li").attr("id");
-
-  for (let story of storyList.stories){
-    if(story.storyId === storyId){
-      clickedStory = story;
-    }
-  }
+  const storyId = $(evt.target).closest(".story-data").attr("id");
+  const starStatus = $(evt.target).closest("i")
+  //const starStatus = $(evt.target).closest("i").toggleClass("-fill");
+  console.log("starStatus=",starStatus)
+  const clickedStory = storyList.stories.find(
+    story => story.storyId === storyId);
 
   console.log("story=", clickedStory);
 
-  currentUser.addFavorite(clickedStory);
+  if (currentUser.favorites.includes(clickedStory)){
+    starStatus.removeClass("bi-star-fill").addClass("bi-star");
+    currentUser.unFavorite(clickedStory);
+    console.log("unfavorited")
+
+    // return false;
+  } else {
+    starStatus.removeClass("bi-star").addClass("bi-star-fill");
+    currentUser.addFavorite(clickedStory);
+    console.log("addedFavorite")
+
+    // return true;
+  }
+
 }
+
+
+// $("span").toggleClass("fill")
+// const span = document.querySelector("span");
+// const classes = span.classList;
+
+// span.addEventListener("click", () => {
+//   const result = classes.toggle("c");
+//   span.textContent = `'c' ${
+//     result ? "added" : "removed"
+//   }; classList is now "${classes}".`;
+// });

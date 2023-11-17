@@ -232,7 +232,7 @@ class User {
   async addFavorite(story) {
     console.log("story =", story);
 
-    this.favorites.push(story);
+    this.favorites.unshift(story);
 
     console.log("favorites =", this.favorites);
 
