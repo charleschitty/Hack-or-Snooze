@@ -230,7 +230,7 @@ class User {
 
   //Favorite method
   async addFavorite(story) {
-    console.log("story =". story);
+    console.log("story =", story);
 
     this.favorites.push(story);
 
@@ -254,7 +254,6 @@ class User {
     console.log("userData =", userData);
 
 
-
     //Input: story
     //Output: Create a favorites storyList
     //What do we want the function to do:
@@ -263,7 +262,7 @@ class User {
 
   //Unfavorites method
   async unFavorite(story) {
-    console.log("story =". story);
+    console.log("story =", story);
 
     //filter out story
     this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId)

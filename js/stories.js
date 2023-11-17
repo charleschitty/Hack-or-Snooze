@@ -55,7 +55,7 @@ function putStoriesOnPage() {
  * and currentUser, it will call addStory and add it to the stories' list. */
 
 async function getAndSubmitStory(evt) {
-  console.debug("getStorySubmission=", evt);
+  // console.debug("getStorySubmission=", evt);
   evt.preventDefault();
 
   // grab the author, title, url
@@ -68,9 +68,9 @@ async function getAndSubmitStory(evt) {
   console.log("currentStory=", currentUser, { title, author, url });
 
   const currentStory = await storyList.addStory(
-      currentUser,
-      { title, author, url }
-      );
+    currentUser,
+    { title, author, url }
+  );
   const $story = generateStoryMarkup(currentStory);
   $allStoriesList.prepend($story);
 
@@ -78,3 +78,22 @@ async function getAndSubmitStory(evt) {
 }
 
 $submitForm.on("submit", getAndSubmitStory);
+
+/** Gets list of favoritestories from server, generates their HTML, and puts on page. */
+function putFavStoriesOnPage() {
+  console.debug("putFavStoriesOnPage");
+
+  $favoritesList.empty();
+  const favoriteStories = currentUser.favorites;
+  console.log("favStories=", favoriteStories);
+  if (favoriteStories.length === 0) {
+    $favoritesList.append("<h5> No favorites added! </h5>");
+  } else {
+    // loop through all of our stories and generate HTML for them
+    for (let story of favoriteStories) {
+      const $story = generateStoryMarkup(story);
+      $favoritesList.append($story);
+    }
+  }
+  $favoritesList.show();
+}
