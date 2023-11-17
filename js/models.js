@@ -21,6 +21,10 @@ class Story {
     this.createdAt = createdAt;
   }
 
+  static async TOBENAMED (){
+
+  }
+
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
@@ -226,9 +230,11 @@ class User {
 
 
 
-  //Currently: Fails to update on refresh?
+  /** Adds a story to the User's favorites' list and adds favorite data to
+   * API.
+   * - story - the current story instance (once selected and fed into function)
+   */
 
-  //Favorite method
   async addFavorite(story) {
     console.log("story =", story);
 
@@ -248,24 +254,21 @@ class User {
       }
     });
 
-    //Returns Servers' data on user (favorites, name, stories, username etc)
-    const userData = await response.json();
-    console.log("HERE");
-    console.log("userData =", userData);
+    const serverResponse = await response.json();
+    console.log("serverResponse =", serverResponse);
 
-
-    //Input: story
-    //Output: Create a favorites storyList
-    //What do we want the function to do:
-    //send request to API to know when a favorite/unfavorite action occurs
   }
 
-  //Unfavorites method
+  /** Removes a story from the User's favorites' list and removes favorite
+   * data from API.
+   * - story - the current story instance (once selected and fed into function)
+   */
+
   async unFavorite(story) {
     console.log("story =", story);
 
     //filter out story
-    this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId)
+    this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId);
 
     console.log("favorites =", this.favorites);
 
@@ -281,16 +284,7 @@ class User {
       }
     });
 
-    //Returns Servers' data on user (favorites, name, stories, username etc)
-    const userData = await response.json();
-    console.log("HERE")
-    console.log("userData =", userData);
-
-
-
-    //Input: story
-    //Output: Create a favorites storyList
-    //What do we want the function to do:
-    //send request to API to know when a favorite/unfavorite action occurs
+    const serverDeleteResponse = await response.json();
+    console.log("serverDeleteResponse =", serverDeleteResponse);;
   }
 }

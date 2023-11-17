@@ -21,19 +21,21 @@ function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
   evt.preventDefault();
   console.log("clicked");
+  hidePageComponents();
   $submitForm.show();
+  $allStoriesList.show();
 }
 
 $navSubmit.on("click", navSubmitClick);
 
 /** Show list of favorites on click on "favorites" */
+
 function navFavoritesClick(evt) {
   console.debug("navFavoritesClick", evt);
   evt.preventDefault();
-  console.log("clicked");
   hidePageComponents();
   $navFavorites.show();
-  putFavStoriesOnPage()
+  putFavStoriesOnPage();
 }
 
 $navFavorites.on("click", navFavoritesClick);

@@ -31,6 +31,7 @@ function hidePageComponents() {
     $loginForm,
     $signupForm,
     $submitForm,
+    $favoritesList,
   ];
   components.forEach(c => c.hide());
 }
@@ -39,7 +40,6 @@ function hidePageComponents() {
 
 async function start() {
   console.debug("start");
-
   // "Remember logged-in user" and log in, if credentials in localStorage
   await checkForRememberedUser();
   await getAndShowStoriesOnStart();

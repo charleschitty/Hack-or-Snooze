@@ -47,9 +47,9 @@ function generateStoryMarkup(story) {
 function generateStarMarkup(user,story){
   if (user){
     if (user.favorites.includes(story)){
-      return `<i class="bi-star-fill"></i>` ;
+      return `<i class="bi bi-star-fill"></i>` ;
     } else {
-      return `<i class="bi-star"></i>` ;
+      return `<i class="bi bi-star"></i>` ;
     }
   }
   return "";
@@ -76,7 +76,7 @@ function putStoriesOnPage() {
  * and currentUser, it will call addStory and add it to the stories' list. */
 
 async function getAndSubmitStory(evt) {
-  // console.debug("getStorySubmission=", evt);
+  console.debug("getStorySubmission=", evt);
   evt.preventDefault();
 
   // grab the author, title, url
@@ -96,11 +96,14 @@ async function getAndSubmitStory(evt) {
   $allStoriesList.prepend($story);
 
   $submitForm.trigger("reset");
+  $submitForm.fadeOut("slow");
 }
 
 $submitForm.on("submit", getAndSubmitStory);
 
-/** Gets list of favoritestories from server, generates their HTML, and puts on page. */
+/** Gets list of favoritestories from server, generates their HTML, and \
+ * puts on page. */
+
 function putFavStoriesOnPage() {
   console.debug("putFavStoriesOnPage");
 
@@ -113,7 +116,7 @@ function putFavStoriesOnPage() {
     // loop through all of our stories and generate HTML for them
     for (let story of favoriteStories) {
       const $story = generateStoryMarkup(story);
-      console.log("generateStory", $story)
+      console.log("generateStory", $story);
       $favoritesList.append($story);
     }
   }
@@ -121,21 +124,26 @@ function putFavStoriesOnPage() {
 }
 
 $allStoriesList.on("click",".star", toggleFavoriteClick);
+$favoritesList.on("click",".star", toggleFavoriteClick);
 
-//toggle
-//fill/unfill star
-//unfavorites if statements
+
+/** Changes star markup of clicked stories depending on whether the story
+ *  is being favorited or unfavorited. */
 
 function toggleFavoriteClick(evt){
   console.log("I did get clicked");
+
   const storyId = $(evt.target).closest(".story-data").attr("id");
-  const starStatus = $(evt.target).closest("i")
-  //const starStatus = $(evt.target).closest("i").toggleClass("-fill");
-  console.log("starStatus=",starStatus)
+  const starStatus = $(evt.target).closest(".bi");
+
+
+  // const inFavorites = currentUser.favorites.find(
+  //   story => story.storyId === storyId);
+  // const clickedStory = (storyList.stories.find(
+  //   story => story.storyId === storyId) || currentUser.favorites.find(
+  //       story => story.storyId === storyId))
   const clickedStory = storyList.stories.find(
     story => story.storyId === storyId);
-
-  console.log("story=", clickedStory);
 
   if (starStatus.hasClass("bi-star")){
     currentUser.addFavorite(clickedStory)
@@ -144,30 +152,9 @@ function toggleFavoriteClick(evt){
     starStatus.toggleClass("bi-star bi-star-fill");
     currentUser.unFavorite(clickedStory);
   }
-  // if (currentUser.favorites.includes(clickedStory)){
-  //   starStatus.removeClass("bi-star-fill").addClass("bi-star");
-  //   currentUser.unFavorite(clickedStory);
-  //   console.log("unfavorited")
-
-  //   // return false;
-  // } else {
-  //   starStatus.removeClass("bi-star").addClass("bi-star-fill");
-  //   currentUser.addFavorite(clickedStory);
-  //   console.log("addedFavorite")
-
-  //   // return true;
-  // }
-
 }
 
-
-// $("span").toggleClass("fill")
-// const span = document.querySelector("span");
-// const classes = span.classList;
-
-// span.addEventListener("click", () => {
-//   const result = classes.toggle("c");
-//   span.textContent = `'c' ${
-//     result ? "added" : "removed"
-//   }; classList is now "${classes}".`;
-// });
+// function isFavorite(storyId){
+//   return currentUser.favorites.find(
+//       story => story.storyId === storyId);
+// }
