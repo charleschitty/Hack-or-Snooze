@@ -101,26 +101,25 @@ function putFavStoriesOnPage() {
   $favoritesList.show();
 }
 
-$allStoriesList.on("click",".star", function(evt){
+$allStoriesList.on("click",".star", toggleFavoriteClick);
+
+//toggle
+//fill/unfill star
+//unfavorites if statements
+
+function toggleFavoriteClick(evt){
   console.log("I did get clicked");
+
   let clickedStory;
   const storyId = $(evt.target).closest("li").attr("id");
-  console.log("storyID=", storyId)
+
   for (let story of storyList.stories){
     if(story.storyId === storyId){
       clickedStory = story;
     }
   }
+
   console.log("story=", clickedStory);
-});
 
-//if
-
-// function handleFavoriteClick(){
-
-
-//   //toggle?
-//   //event-listener
-//   //call addFavorites (on user)
-//   //we probably want closest parent?
-// }
+  currentUser.addFavorite(clickedStory);
+}
