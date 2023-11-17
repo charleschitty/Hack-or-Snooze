@@ -21,8 +21,13 @@ class Story {
     this.createdAt = createdAt;
   }
 
-  static async TOBENAMED (){
-
+  //get an arbitrary story by ID --> return story instance
+  static async toBeNamed (storyId){
+    const response = await fetch(`${BASE_URL}/stories/${storyId}`, {
+      method: "GET",
+    });
+    const storyData = await response.json();
+    return storyData;
   }
 
   /** Parses hostname out of URL and returns it. */

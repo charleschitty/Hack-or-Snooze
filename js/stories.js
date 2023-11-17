@@ -139,11 +139,13 @@ function toggleFavoriteClick(evt){
 
   // const inFavorites = currentUser.favorites.find(
   //   story => story.storyId === storyId);
-  // const clickedStory = (storyList.stories.find(
-  //   story => story.storyId === storyId) || currentUser.favorites.find(
-  //       story => story.storyId === storyId))
-  const clickedStory = storyList.stories.find(
-    story => story.storyId === storyId);
+  const infoToBeNamed = Story.toBeNamed(storyId);
+  console.log("toBeNamed info = ",infoToBeNamed);
+  const clickedStory = (storyList.stories.find(
+    story => story.storyId === storyId) || currentUser.favorites.find(
+        story => story.storyId === storyId))
+  // const clickedStory = storyList.stories.find(
+  //   story => story.storyId === storyId);
 
   if (starStatus.hasClass("bi-star")){
     currentUser.addFavorite(clickedStory)
