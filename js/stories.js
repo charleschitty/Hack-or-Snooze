@@ -26,7 +26,7 @@ function generateStoryMarkup(story) {
   return $(`
       <li id="${story.storyId}" class="story-data">
         <span class="star">
-          <i class="bi bi-star"></i>
+        ${generateStarMarkup(currentUser,story)}
         </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -36,6 +36,23 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+}
+
+/** Takes in user and story, returns filled or unfilled star inline
+ * if user is logged in, returns unfilled star,
+ * if story is user's favorite, returns filled star,
+ * otherwise, returns empty markup.
+*/
+
+function generateStarMarkup(user,story){
+  if (user){
+    if (user.favorites.includes(story)){
+      return `<i class="bi-star-fill"></i>` ;
+    } else {
+      return `<i class="bi-star"></i>` ;
+    }
+  }
+  return "";
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -48,6 +65,7 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
+
     $allStoriesList.append($story);
   }
 
@@ -119,19 +137,26 @@ function toggleFavoriteClick(evt){
 
   console.log("story=", clickedStory);
 
-  if (currentUser.favorites.includes(clickedStory)){
-    starStatus.removeClass("bi-star-fill").addClass("bi-star");
-    currentUser.unFavorite(clickedStory);
-    console.log("unfavorited")
-
-    // return false;
+  if (starStatus.hasClass("bi-star")){
+    currentUser.addFavorite(clickedStory)
+    starStatus.toggleClass("bi-star bi-star-fill");
   } else {
-    starStatus.removeClass("bi-star").addClass("bi-star-fill");
-    currentUser.addFavorite(clickedStory);
-    console.log("addedFavorite")
-
-    // return true;
+    starStatus.toggleClass("bi-star bi-star-fill");
+    currentUser.unFavorite(clickedStory);
   }
+  // if (currentUser.favorites.includes(clickedStory)){
+  //   starStatus.removeClass("bi-star-fill").addClass("bi-star");
+  //   currentUser.unFavorite(clickedStory);
+  //   console.log("unfavorited")
+
+  //   // return false;
+  // } else {
+  //   starStatus.removeClass("bi-star").addClass("bi-star-fill");
+  //   currentUser.addFavorite(clickedStory);
+  //   console.log("addedFavorite")
+
+  //   // return true;
+  // }
 
 }
 
