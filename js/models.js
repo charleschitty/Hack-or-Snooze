@@ -223,4 +223,75 @@ class User {
       return null;
     }
   }
+
+
+
+  //Currently: Fails to update on refresh?
+
+  //Favorite method
+  async addFavorite(story) {
+    console.log("story =". story);
+
+    this.favorites.push(story);
+
+    console.log("favorites =", this.favorites);
+
+    const storyId = story.storyId;
+
+    const response = await fetch(
+      `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
+      {
+      method: "POST",
+      body: JSON.stringify({token: `${this.loginToken}`}),
+      headers: {
+        "content-type": "application/json",
+      }
+    });
+
+    //Returns Servers' data on user (favorites, name, stories, username etc)
+    const userData = await response.json();
+    console.log("HERE");
+    console.log("userData =", userData);
+
+
+
+    //Input: story
+    //Output: Create a favorites storyList
+    //What do we want the function to do:
+    //send request to API to know when a favorite/unfavorite action occurs
+  }
+
+  //Unfavorites method
+  async unFavorite(story) {
+    console.log("story =". story);
+
+    //filter out story
+    this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId)
+
+    console.log("favorites =", this.favorites);
+
+    const storyId = story.storyId;
+
+    const response = await fetch(
+      `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
+      {
+      method: "DELETE",
+      body: JSON.stringify({token: `${this.loginToken}`}),
+      headers: {
+        "content-type": "application/json",
+      }
+    });
+
+    //Returns Servers' data on user (favorites, name, stories, username etc)
+    const userData = await response.json();
+    console.log("HERE")
+    console.log("userData =", userData);
+
+
+
+    //Input: story
+    //Output: Create a favorites storyList
+    //What do we want the function to do:
+    //send request to API to know when a favorite/unfavorite action occurs
+  }
 }
