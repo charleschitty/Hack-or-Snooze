@@ -103,9 +103,18 @@ function putFavStoriesOnPage() {
 
 $allStoriesList.on("click",".star", function(evt){
   console.log("I did get clicked");
-  const story = $(evt.target).closest("id");
-  console.log("story=", story);
+  let clickedStory;
+  const storyId = $(evt.target).closest("li").attr("id");
+  console.log("storyID=", storyId)
+  for (let story of storyList.stories){
+    if(story.storyId === storyId){
+      clickedStory = story;
+    }
+  }
+  console.log("story=", clickedStory);
 });
+
+//if
 
 // function handleFavoriteClick(){
 
