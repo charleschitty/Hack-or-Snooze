@@ -25,9 +25,8 @@ class Story {
 
   getHostName() {
     console.log("getHostName=", this.url);
-    const hostname = new URL(this.url).host;
+    const hostname = new URL(this.url).hostname;
     return hostname;
-
   }
 }
 
@@ -83,7 +82,8 @@ class StoryList {
     const response = await fetch(`${BASE_URL}/stories`, {
       method: "POST",
       body: JSON.stringify({
-        token, story: {
+        token,
+        story: {
           title, author, url
         }
       }),
@@ -96,7 +96,7 @@ class StoryList {
     console.log("storyData=", storyData);
     const story = new Story(storyData.story);
     console.log("story=", story);
-
+    this.stories.unshift(story);
     return story;
   }
 }
