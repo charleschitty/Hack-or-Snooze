@@ -23,7 +23,7 @@ class Story {
 
   /** Make an instance of Story from an arbitrary storyId */
 
-  static async getRemovedStories(storyId){
+  static async getRemovedStories(storyId){ //TODO: getStoryById
     (console.log("we got getRemovedStories", "storyId=",storyId))
     const response = await fetch(`${BASE_URL}/stories/${storyId}`, {
       method: "GET",
@@ -245,7 +245,7 @@ class User {
   async addFavorite(story) {
     console.log("story =", story);
 
-    this.favorites.unshift(story);
+    this.favorites.unshift(story); //TODO: move it after fetch
 
     console.log("favorites =", this.favorites);
 
@@ -261,7 +261,7 @@ class User {
       }
     });
 
-    const serverResponse = await response.json();
+    const serverResponse = await response.json(); //TODO: response name
     console.log("serverResponse =", serverResponse);
 
   }
@@ -281,7 +281,7 @@ class User {
 
     const storyId = story.storyId;
 
-    const response = await fetch(
+    const response = await fetch( //TODO: move it after fetch
       `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
       {
       method: "DELETE",
@@ -291,7 +291,7 @@ class User {
       }
     });
 
-    const serverDeleteResponse = await response.json();
+    const serverDeleteResponse = await response.json();//TODO: response name
     console.log("serverDeleteResponse =", serverDeleteResponse);;
   }
 }

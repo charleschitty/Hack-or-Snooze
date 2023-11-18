@@ -34,7 +34,7 @@ function navFavoritesClick(evt) {
   console.debug("navFavoritesClick", evt);
   evt.preventDefault();
   hidePageComponents();
-  $navFavorites.show();
+  // $navFavorites.show(); TODO: doesn't need to be here
   putFavStoriesOnPage();
 }
 

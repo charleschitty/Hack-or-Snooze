@@ -26,7 +26,7 @@ function generateStoryMarkup(story) {
   return $(`
       <li id="${story.storyId}" class="story-data">
         <span class="star">
-        ${generateStarMarkup(currentUser, story)}
+        ${generateStarMarkup(currentUser, story)} //TODO: call this outside.
         </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -136,7 +136,7 @@ async function toggleFavoriteClick(evt) {
   console.log("I did get clicked");
 
   const storyId = $(evt.target).closest(".story-data").attr("id");
-  const starStatus = $(evt.target).closest(".bi");
+  const starStatus = $(evt.target).closest(".bi"); //TODO: variable name = it is actually an element : $starIcon
 
   const cacheOldStory = await Story.getRemovedStories(storyId);
   const clickedStory = (storyList.stories.find(s => s.storyId === storyId) ||
