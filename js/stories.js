@@ -26,7 +26,7 @@ function generateStoryMarkup(story) {
   return $(`
       <li id="${story.storyId}" class="story-data">
         <span class="star">
-        ${generateStarMarkup(currentUser,story)}
+        ${generateStarMarkup(currentUser, story)}
         </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -44,12 +44,13 @@ function generateStoryMarkup(story) {
  * otherwise, returns empty markup.
 */
 
-function generateStarMarkup(user,story){
-  if (user){
-    if (user.favorites.includes(story)){
-      return `<i class="bi bi-star-fill"></i>` ;
+function generateStarMarkup(user, story) {
+  console.log("whatIsStory", story);
+  if (user) {
+    if (user.favorites.some(s => s.storyId === story.storyId)) {
+      return `<i class="bi bi-star-fill"></i>`;
     } else {
-      return `<i class="bi bi-star"></i>` ;
+      return `<i class="bi bi-star"></i>`;
     }
   }
   return "";
@@ -110,6 +111,7 @@ function putFavStoriesOnPage() {
   $favoritesList.empty();
   const favoriteStories = currentUser.favorites;
   console.log("favStories=", favoriteStories);
+
   if (favoriteStories.length === 0) {
     $favoritesList.append("<h5> No favorites added! </h5>");
   } else {
@@ -117,38 +119,31 @@ function putFavStoriesOnPage() {
     for (let story of favoriteStories) {
       const $story = generateStoryMarkup(story);
       console.log("generateStory", $story);
-      $favoritesList.append($story);
+      $favoritesList.prepend($story);
     }
   }
   $favoritesList.show();
 }
 
-$allStoriesList.on("click",".star", toggleFavoriteClick);
-$favoritesList.on("click",".star", toggleFavoriteClick);
+$allStoriesList.on("click", ".star", toggleFavoriteClick);
+$favoritesList.on("click", ".star", toggleFavoriteClick);
 
 
 /** Changes star markup of clicked stories depending on whether the story
  *  is being favorited or unfavorited. */
 
-function toggleFavoriteClick(evt){
+async function toggleFavoriteClick(evt) {
   console.log("I did get clicked");
 
   const storyId = $(evt.target).closest(".story-data").attr("id");
   const starStatus = $(evt.target).closest(".bi");
 
+  const cacheOldStory = await Story.getRemovedStories(storyId);
+  const clickedStory = (storyList.stories.find(s => s.storyId === storyId) ||
+    cacheOldStory);
 
-  // const inFavorites = currentUser.favorites.find(
-  //   story => story.storyId === storyId);
-  const infoToBeNamed = Story.toBeNamed(storyId);
-  console.log("toBeNamed info = ",infoToBeNamed);
-  const clickedStory = (storyList.stories.find(
-    story => story.storyId === storyId) || currentUser.favorites.find(
-        story => story.storyId === storyId))
-  // const clickedStory = storyList.stories.find(
-  //   story => story.storyId === storyId);
-
-  if (starStatus.hasClass("bi-star")){
-    currentUser.addFavorite(clickedStory)
+  if (starStatus.hasClass("bi-star")) {
+    currentUser.addFavorite(clickedStory);
     starStatus.toggleClass("bi-star bi-star-fill");
   } else {
     starStatus.toggleClass("bi-star bi-star-fill");
@@ -156,7 +151,3 @@ function toggleFavoriteClick(evt){
   }
 }
 
-// function isFavorite(storyId){
-//   return currentUser.favorites.find(
-//       story => story.storyId === storyId);
-// }

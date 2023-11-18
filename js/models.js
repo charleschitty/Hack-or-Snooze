@@ -21,19 +21,21 @@ class Story {
     this.createdAt = createdAt;
   }
 
-  //get an arbitrary story by ID --> return story instance
-  static async toBeNamed (storyId){
+  /** Make an instance of Story from an arbitrary storyId */
+
+  static async getRemovedStories(storyId){
+    (console.log("we got getRemovedStories", "storyId=",storyId))
     const response = await fetch(`${BASE_URL}/stories/${storyId}`, {
       method: "GET",
     });
     const storyData = await response.json();
-    return storyData;
+    console.log("storyData", storyData)
+    return new Story(storyData.story);
   }
 
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    console.log("getHostName=", this.url);
     const hostname = new URL(this.url).hostname;
     return hostname;
   }
